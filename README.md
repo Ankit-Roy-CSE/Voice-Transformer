@@ -27,3 +27,28 @@ Transform your voice effortlessly! This Voice Changer application allows users t
 - Python 3.8 or later
 - `pip` package manager
 - Basic audio hardware (microphone and speakers)
+
+Ensure you have the necessary dependencies installed. Run:
+```bash
+pip install -r requirements.txt
+```
+
+## 🎛️ Usage Guide
+
+Follow these steps to use the Voice Changer application:
+
+### Using Pre-Recorded Audio Files
+
+You can apply voice effects to existing audio files.
+
+```
+python main.py --file input/your-audio.wav --effect effect_name
+```
+
+The given effects which you can substitute in place of "effect_name" are robot , pitch_up , pitch_down , reverb
+
+To Transform your voice as you speak using your microphone.
+
+```
+python main.py --realtime --effect effect_name
+```
