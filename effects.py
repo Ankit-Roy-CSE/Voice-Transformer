@@ -18,7 +18,7 @@ def robot_effect(audio_data):
     return np.sign(audio_data)
 
 def pitch_shift(audio_data, sr, n_steps):
-    return librosa.effects.pitch_shift(audio_data, sr, n_steps=n_steps)
+    return librosa.effects.pitch_shift(audio_data, sr=sr, n_steps=n_steps)
 
 def reverb_effect(audio_data):
     reverb_kernel = np.hanning(1024)  # Simplistic reverb kernel
