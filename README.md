@@ -42,13 +42,21 @@ Follow these steps to use the Voice Changer application:
 You can apply voice effects to existing audio files.
 
 ```
-python main.py --file input/your-audio.wav --effect effect_name
+python voice_manipulator.py input.wav output.wav --effect <effect_name> --value <val>
 ```
 
-The given effects which you can substitute in place of "effect_name" are robot , pitch_up , pitch_down , reverb
+The given effects which you can substitute in place of "effect_name" are speed , pitch , reverse , echo
 
 To Transform your voice as you speak using your microphone.
 
 ```
 python main.py --realtime --effect effect_name
+```
+
+To Transform Text to Speech 
+
+```
+tts --text "Text for TTS" 
+--model_name "<model_type>/<language>/<dataset>/<model_name>" 
+--out_path output/path/speech.wav
 ```

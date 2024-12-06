@@ -1,36 +1,64 @@
 import argparse
 import os
-from effects import apply_effect
-from utils import load_audio, save_audio, record_audio, play_audio
+from TTS.TTS.api import TTS
+from pathlib import Path
+
+def create_tts_cli():
+    parser = argparse.ArgumentParser(description='Text to Speech CLI Tool')
+    parser.add_argument('--text', type=str, help='Text to convert to speech')
+    parser.add_argument('--input-file', type=str, help='Text file to convert to speech')
+    parser.add_argument('--output', type=str, default='output.wav', help='Output audio file path')
+    parser.add_argument('--speaker', type=str, help='Path to speaker voice sample')
+    # parser.add_argument('--language', type=str, help='Language code (default: en)')
+    return parser
+
+def process_tts(text, output_path, speaker_path=None, language='en'):
+    try:
+        tts = TTS("tts_models/en/ljspeech/tacotron2-DDC")
+        print(f"Converting text to speech...")
+        tts.tts_to_file(
+            text=text,
+            file_path=output_path,
+            speaker_wav=speaker_path if speaker_path else None,
+            split_sentences=True
+        )
+        print(f"Audio saved to: {output_path}")
+    except Exception as e:
+        print(f"Error during conversion: {str(e)}")
+        return False
+    return True
 
 def main():
-    parser = argparse.ArgumentParser(description="Voice Changer Application")
-    parser.add_argument("--file", type=str, help="Path to the input audio file")
-    parser.add_argument("--effect", type=str, required=True, choices=["robot", "pitch_up", "pitch_down", "reverb"],
-                        help="Effect to apply to the audio")
-    parser.add_argument("--realtime", action="store_true", help="Enable real-time voice processing")
+    parser = create_tts_cli()
     args = parser.parse_args()
 
-    if args.realtime:
-        print("Recording real-time audio. Speak into your microphone.")
-        audio_data, sr = record_audio(duration=5)
-        print("Applying effect...")
-        transformed_audio = apply_effect(audio_data, sr, args.effect)
-        print("Playing transformed audio...")
-        play_audio(transformed_audio, sr)
-    elif args.file:
-        if not os.path.exists(args.file):
-            print(f"File not found: {args.file}")
+    if not args.text and not args.input_file:
+        parser.error("Either --text or --input-file must be provided")
+
+    output_dir = os.path.dirname(args.output)
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+
+    if args.input_file:
+        try:
+            with open(args.input_file, 'r') as f:
+                text = f.read()
+        except Exception as e:
+            print(f"Error reading input file: {str(e)}")
             return
-        print(f"Loading audio file: {args.file}")
-        audio_data, sr = load_audio(args.file)
-        print("Applying effect...")
-        transformed_audio = apply_effect(audio_data, sr, args.effect)
-        output_path = os.path.join("output", f"transformed_{os.path.basename(args.file)}")
-        save_audio(output_path, transformed_audio, sr)
-        print(f"Transformed audio saved at: {output_path}")
     else:
-        print("Please provide either a file path or enable real-time mode using --realtime.")
+        text = args.text
+
+    success = process_tts(
+        text=text,
+        output_path=args.output,
+        speaker_path=args.speaker,
+        # language=args.language
+    )
+
+    if not success:
+        print("TTS conversion failed")
+        return
 
 if __name__ == "__main__":
     main()

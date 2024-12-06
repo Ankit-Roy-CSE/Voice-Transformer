@@ -169,3 +169,8 @@ recipes/
 
 #Training Logs
 phoneme_cache/
+
+#Audio Files
+output/
+input/
+uploads/
