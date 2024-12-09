@@ -3,3 +3,5 @@ librosa
 soundfile
 sounddevice
 setuptools
+torch
+torchaudio

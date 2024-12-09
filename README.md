@@ -39,24 +39,36 @@ Follow these steps to use the Voice Changer application:
 
 ### Using Pre-Recorded Audio Files
 
+For CLI Tool to convert Speech to Text
+
+```
+python stt.py --audio-file path/to/input.wav --model-size size
+```
+Size of the Whisper model to use can be : tiny / base / small / medium / large
+
 You can apply voice effects to existing audio files.
 
 ```
 python voice_manipulator.py input.wav output.wav --effect <effect_name> --value <val>
 ```
 
-The given effects which you can substitute in place of "effect_name" are speed , pitch , reverse , echo
-
-To Transform your voice as you speak using your microphone.
+For CLI Tool to convert Text to Speech
 
 ```
-python main.py --realtime --effect effect_name
+# Convert text directly
+python main.py --text "Hello, world!" --output output.wav
+
+# Convert from text file
+python main.py --input-file input.txt --output output.wav --speaker speaker.wav
+
 ```
 
-To Transform Text to Speech 
+To convert from an audio file to a different voice :-
 
 ```
-tts --text "Text for TTS" 
---model_name "<model_type>/<language>/<dataset>/<model_name>" 
---out_path output/path/speech.wav
+# Convert audio to text and back to audio with default settings
+python vocalshift.py --input-audio input.wav --output-audio output.wav
+
+# Convert audio to text and back to audio with a specific speaker and effect
+python vocalshift.py --input-audio input.wav --output-audio output.wav --speaker speaker.wav --effect pitch_up --effect-level 1.5
 ```

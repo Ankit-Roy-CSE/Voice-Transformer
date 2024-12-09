@@ -12,6 +12,7 @@ setup(
         'numpy',
         'scipy',
         'librosa',
+        'torch',
     ],
     classifiers=[
         'Programming Language :: Python :: 3',

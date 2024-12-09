@@ -3,6 +3,7 @@ import librosa.display
 import soundfile as sf
 import click
 import os
+from pathlib import Path
 
 @click.command()
 @click.argument('input_file', type=click.Path(exists=True))
@@ -13,6 +14,8 @@ def manipulate_audio(input_file, output_file, effect, value):
     """
     CLI Tool to manipulate audio files with effects like speed change, pitch shift, reverse, or echo.
     """
+    input_path = str(input_path) if isinstance(input_path, Path) else input_path
+    output_path = str(output_path) if isinstance(output_path, Path) else output_path
     try:
         # Load audio file
         audio, sr = librosa.load(input_file, sr=None)
