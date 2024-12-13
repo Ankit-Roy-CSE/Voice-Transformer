@@ -30,8 +30,10 @@ def vocal_shift(input_audio, output_audio, stt_model_size='base', speaker=None, 
     
     if success:
         print(f"Audio saved to: {output_audio}")
+        return True
     else:
         print("Conversion failed")
+        return False
 
 def main():
     parser = create_vocalshift_cli()
